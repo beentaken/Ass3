@@ -37,23 +37,23 @@ class Event
 
 
 /*****************************************************************
-	Psuedocode for Initial Input & Activity Engine/Log Gen
+	Psuedocode for Initial Input & Activity Engine/Log Gen	
 	read in stats and events;
 		check for discrepencies ie(number of events!=,mean is out of range(min, max) or stdDev > max
-
+	
 	create objects with data;
 	create Array of event objects;
-	iterate number of days
+	iterate number of days	
 		irterate through array;
 			randomise values according to distrubution (normal distrib)
 			->save to log;
 	LOG FORMAT
-
+	
 	day:name:[CDE]:value:units
 ******************************************************************/
 
 #include <iostream>
-#include <random>	//needs c++11 ie wont work on banshee
+#include <random>
 
 class Generator
 {
@@ -80,7 +80,7 @@ class Generator
 
 /******************************************************************************
 *
-*	ACTIVITY ENGINE - LOG GENERATION
+*	ACTIVITY ENGINE - LOG GENERATION	
 *	Arguments: array of events, days, output stream
 *	Uses 'Generator' class
 *
@@ -95,26 +95,26 @@ class Generator
 void logGenerate(Events event[], int days, ofstream & out)
 {
 
-	for(int i=0;i<days;++i)
+	for(int i=0;i<days;i++)
 	{
 		out << "Day " << i << std::endl;
-		for(int j=0;j<event.size();++j)
+		for(int j=0;j<event.size();j++)
 		{
 			//check event type
 			if(event[i].cde=='C')
 			{
 				Generator g(event[i].mean, event[i].stdDev, event[i].minimum, event[i].maximum);
-				out << event[i].name << ':' << "C:" <<  g() << ':' << event[i].units << std::endl;
+				out << event[i].name << ':' << 'C:' <<  g() << ':' << event[i].units << std::endl;
 			}
 			else if(event[i].cde=='D')
 			{
 				Generator g(event[i].mean, event[i].stdDev, event[i].minimum, 999999);
-				out << event[i].name << ':' << "D:" <<  g() << ':' << event[i].units << std::endl;
+				out << event[i].name << ':' << 'D:' <<  g() << ':' << event[i].units << std::endl;				
 			}
 			else if(event[i].cde=='E')
 			{
 				Generator g(event[i].mean, event[i].stdDev, -999999, 999999);
-				out << event[i].name << ':' << "E:" <<  g() << ':' << event[i].units << std::endl;
+				out << event[i].name << ':' << 'E:' <<  g() << ':' << event[i].units << std::endl;
 			}
 			else
 				out << "Error log entry" << std::endl;
