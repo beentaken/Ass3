@@ -1,6 +1,6 @@
 /**************************************************************************************************************
  *	Ben Wardrop 4413234
- *	CSCI262 Assignment 3 
+ *	CSCI262 Assignment 3
  *	Event.h
  *	last Modified: Ben 12/10/15
  *
@@ -16,13 +16,13 @@
  *	Continuous events need be recorded to two decimal places
  *
  * 	Event has
- *		1. Name, can be a compund word		
+ *		1. Name, can be a compund word
  *		2. CDE
  *		3. Minimum
  * 		4. Maximum
  * 		5. Unit
- * 		6. Weight 
- * 
+ * 		6. Weight
+ *
  * 	some examples
  *
  *	Logins:D:0:::2:
@@ -72,17 +72,18 @@
 #include <sstream>
 
 using std::string;
-	
+using std::fstream;
+using std::iostream;
 
 class Event
 {
-	
+
 	public:
-		enum CDE {C, D, E, N}; //Continous, Descrete, E?, Null			
+		enum CDE {C, D, E, N}; //Continous, Descrete, E?, Null
 
 		Event();
 		Event(string in); //Construct Event from string
-		~Event();
+		//~Event();
 
 		string	getName()			{return this->name;}
 		void 	setName(string n)	{this->name = n;}
@@ -93,12 +94,17 @@ class Event
 		string 	getUnit()			{return this->unit;}
 		void	setUnit(string u)	{this->unit = u;}
 		string 	getWeight()			{return this->unit;}
-		void	setWeight(int w)	{this->weight = w;}	
-		
+		void	setWeight(int w)	{this->weight = w;}
+		float	getMean()			{return this->mean;}
+		void	setMean(float m)	{this->mean = m;}
+		float	getStdDev()			{return this->stdDevation;}
+		void	setStdDev(float dev){this->mean = stdDevation;}
+
+
 		void	fromString(string input);	//Asign values from string
 		string	toString(); 				//Create a string representation
 	private:
-		string name;
+		string	name;
 		CDE		cde;
 		float	minimum;
 		float	maximum;

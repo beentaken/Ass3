@@ -93,7 +93,7 @@ void activityEngine(Event event[], int days, std::ofstream & out)
 {
 	srand(time(NULL)); // for generate
 	std::cout << "Log generation started...\n";
-	out << event.size() << std::endl;
+	out << event->size() << std::endl;
 	for(int i=0;i<days;i++)
 	{
 		std::cout << "Day " << i << std::endl;
