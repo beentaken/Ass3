@@ -17,28 +17,32 @@ int main()
 	Event::readEvents(eventsFile,n,eventList);
 	Event::readStats(statsFile,n,eventList);
 
-	eventsFile >> n;
+	//eventsFile >> n;
 
 
 
-	//... 
+	//...
 
 	//Event eventArray[n]
 	eventsFile.close();
 	statsFile.close();
 
 //------Activity Engine (zach) ------------------------------------
-	fstream logs("logs.dat",iso::in|ios::out);
-	if (!logStatFile.is_open())
+	ofstream temp("logs.dat"); //HACK to ensure file exists
+	temp.close();
+	fstream logs("logs.dat",ios::out|ios::in);
+	if (!logs.is_open())
 	{
 		cout << "Activity Engine Error: The file could not be opened\n";
 	}
 	else
 	{
-		activityEngine(eventArray, days, logStatFile);
+		activityEngine(eventList,n,days,logs);
 	}
+	logs.close();
 
 //------Analysis Engine (zach) ------------------------------------
+	logs.open("logs.dat");
 	ofstream logStats("logStats.txt");
 
 	analysisEngine(logs, logStats, days);
@@ -48,6 +52,10 @@ int main()
 //------Alert Engine (ben) ----------------------------------------
 
 
+
+	cout << "Please enter statistics file"<< endl;
+	//For each day generated you need to report on whether there is an intrusion detected by comparing
+	//an anomaly counter with a threshold.
 
 
 
