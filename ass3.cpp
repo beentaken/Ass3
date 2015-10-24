@@ -12,6 +12,11 @@ int main()
 	//read into event array[];
 	int days = 10;
 	int n;
+	Event* eventList;
+
+	Event::readEvents(eventsFile,n,eventList);
+	Event::readStats(statsFile,n,eventList);
+
 	eventsFile >> n;
 
 	//... 

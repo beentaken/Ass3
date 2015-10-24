@@ -7,6 +7,97 @@
 
 #include "event.h"
 
+std::ostream & operator << (std::ostream & os, Event & e)
+{
+	os << e.name << ':';
+	switch(e.cde)
+	{
+		case Event::C:
+			os << 'C';
+			break;
+		case Event::D:
+			os << 'D';
+			break;
+		case Event::E:
+			os << 'E';
+			break;
+		default:
+			os << 'N';
+	}
+	os << ':';
+	if(e.minimum >= 0) os << e.minimum; os << ':';
+	if(e.maximum >= 0) os << e.minimum; os << ':';
+	os << e.unit << ':';
+	os << e.weight << ':';
+	//os << e.mean << ':';
+	//os << e.stdDev << ':';
+	return os;
+}
+
+std::istream & operator >> (std::istream & in, Event & e)
+{
+	char tempCDE = 'N';
+	getline(in,e.name,':');
+	in >> tempCDE; in.ignore();
+	if(in.peek() == ':')
+	{
+		in.ignore();
+	}
+	else
+	{
+		in >> e.minimum;
+		in.clear();
+		in.ignore();
+	}
+	if(in.peek() == ':')
+	{
+		in.ignore();
+	}
+	else
+	{
+		in >> e.maximum;
+		in.ignore();
+		in.clear();
+	}
+	if(in.peek() == ':')
+	{
+		in.ignore();
+	}
+	else
+	{
+		getline(in,e.unit,':');
+	}
+	if(in.peek() == ':')
+	{
+		in.ignore();
+	}
+	else
+	{
+		in >> e.weight;
+		in.ignore();
+		in.clear();
+	}
+	//in >> e.mean; in.ignore();
+	//in >> e.stdDev; in.ignore();
+	in.ignore();
+
+	switch(tempCDE)
+	{
+		case 'C':
+			 e.cde = Event::C;
+			break;
+		case 'D':
+			e.cde = Event::D;
+			break;
+		case 'E':
+			e.cde = Event::E;
+			break;
+		default:
+			e.cde = Event::N;
+	}
+	return in;
+}
+
 Event::Event()
 {
 	this -> cde		=	Event::N;
@@ -17,7 +108,13 @@ Event::Event()
 
 Event::Event(string in) //Construct Event from string
 {
+	fromString(in);
+}
+
+void Event::fromString(std::string input)	//Asign values from string
+{
 	std::stringstream ss;
+	ss << input;
 	ss >> *(this);
 	//std::cerr << "fromString:		" << *(this) << std::endl;
 }
@@ -30,3 +127,85 @@ string Event::toString()					//Create a string representation
 	string ret = sin.str();
 	return ret;
 }
+
+/*
+void Event::readIn(Event* e, string eventsFile, string statsFile)
+{
+	int size = 0;
+	Event* current = e;
+    Event::readEvents(e,size,eventsFile);
+	Event::readStats(e,size,eventsFile);
+}
+*/
+void Event::readEvents(std::istream& ins, int& size, Event*& e)
+{
+	string s;
+	ins >> size;
+	ins.ignore(2,'\n');
+	ins.clear();
+	e = new Event[size];
+	for(int i = 0; i < size; i++)
+	{
+		getline(ins,s,'\n');
+		//std::cerr << "string:		" << s << std::endl;
+		e[i].fromString(s);
+		//std::cerr <<"value:		" << e[i] << std::endl;
+	}
+}
+
+void Event::readStats(std::istream& ins, int& size, Event*& e)
+{
+	string s;
+	ins >> size;
+	ins.ignore(2,'\n');
+	ins.clear();
+	for(int i = 0; i < size; i++)
+	{
+		getline(ins,s,'\n');
+		e[i].statString(s);
+	}
+}
+
+void Event::statString(string stats)
+{
+	Event& spy = *this;
+	std::stringstream ss;
+	ss << stats;
+	getline(ss,stats,':');
+	ss >> this->mean;
+	//std::cerr << this->mean;
+	ss.ignore(2,':');
+	ss.clear();
+	ss << stats;
+	ss >>this->stdDevation;
+	//std::cerr << this->stdDevation << std::endl;
+}
+
+/*
+Log::Log()
+{
+	size = 0;
+}
+
+Log(std::istream& in, string eventFile, string statsFile);
+{
+	in >> size;
+	std:: cerr << size;
+	in.ignore();
+	Event temp;
+	for(int i = 0; i < size; i++)
+	{
+		in >> temp;
+		set.push_back(temp);
+		//std:: cerr << set[i] << std::endl;
+	}
+}
+
+void Log::print(std::ostream& os)
+{
+	for(int i = 0; i < size; ++i)
+	{
+		os << set[i];
+	}
+}
+*/

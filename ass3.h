@@ -98,23 +98,23 @@ void activityEngine(Event event[], int days, std::ofstream & out)
 	{
 		std::cout << "Day " << i << std::endl;
 		out << "Day " << i << std::endl;
-		for(int j=0;j<event.size();j++)
+		for(int j=0;j<eventCount;j++)
 		{
 			//check event type
-			if(event[i].cde=='C')
+			if(event[i].getCDE() == 'C')
 			{
-				double g = generate(event[i].mean, event[i].stdDev, event[i].minimum, event[i].maximum);
-				out << event[i].name << ':' <<  g << ':' << event[i].units << std::endl;
+				double g = generate(event[i].mean, event[i].stdDevation, event[i].minimum, event[i].maximum);
+				out << event[i].name << ':' <<  g << ':' << event[i].unit << std::endl;
 			}
-			else if(event[i].cde=='D')
+			else if(event[i].getCDE() == 'D')
 			{
-				double g = generate(event[i].mean, event[i].stdDev, event[i].minimum, 999999);
-				out << event[i].name << ':' <<  g << ':' << event[i].units << std::endl;				
+				double g = generate(event[i].mean, event[i].stdDevation, event[i].minimum, 999999);
+				out << event[i].name << ':' <<  g << ':' << event[i].unit << std::endl;
 			}
-			else if(event[i].cde=='E')
+			else if(event[i].getCDE() == 'E')
 			{
-				double g = generate(event[i].mean, event[i].stdDev, -999999, 999999);
-				out << event[i].name << ':' <<  g << ':' << event[i].units << std::endl;
+				double g = generate(event[i].mean, event[i].stdDevation, -999999, 999999);
+				out << event[i].name << ':' <<  g << ':' << event[i].unit << std::endl;
 			}
 			else
 				out << "Error log entry" << std::endl;
@@ -171,9 +171,9 @@ void analysisEngine(std::ifstream & in, std::ofstream & out, int days)
 		{
 			getline(in,logs[j].name,':');
 			in.ignore();
-			getline(in,logs[j].values[i],':')
+			getline(in,logs[j].values[i],':');
 			in.ignore();
-			getline(in,logs[j].units,':')
+			getline(in,logs[j].units,':');
 		}
 	}
 	//calculate;

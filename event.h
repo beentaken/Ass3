@@ -70,6 +70,7 @@
 #include <string>
 #include <iostream>
 #include <sstream>
+#include <vector>
 
 using std::string;
 using std::fstream;
@@ -80,7 +81,6 @@ class Event
 
 	public:
 		enum CDE {C, D, E, N}; //Continous, Descrete, E?, Null
-
 		Event();
 		Event(string in); //Construct Event from string
 		//~Event();
@@ -103,6 +103,14 @@ class Event
 
 		void	fromString(string input);	//Asign values from string
 		string	toString(); 				//Create a string representation
+		void 	statString(string s);		//Read stats from string to event
+
+		static void readEvents(std::istream& ins, int& size, Event*& e);
+		static void	readStats(std::istream& ins, int& size, Event*& e);
+
+		friend std::ostream & operator << (std::ostream & os, Event & e);
+		friend std::istream & operator >> (std::istream & in, Event & e);
+
 	private:
 		string	name;
 		CDE		cde;
@@ -110,6 +118,27 @@ class Event
 		float	maximum;
 		string	unit;
 		int		weight;
+
+		float	mean;
+		float	stdDevation;
 };
 
+/*Log is a set of events
+	the log has a size which is the number of event types
+
+
+class Log
+{
+	private:
+		int size;
+		std::vector<Event> set;
+	public:
+		Log();
+		Log(std::istream& in, string eventFile, string statsFile);
+
+		void print(std::ostream& os = std::cout);
+		int		getSize()		{return size;}
+		void	setSize(int s)	{size = s;}
+};
+*/
 #endif //_EVENT_H
