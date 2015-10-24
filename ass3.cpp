@@ -19,10 +19,7 @@ int main()
 
 	//eventsFile >> n;
 
-
-
 	//...
-
 	//Event eventArray[n]
 	eventsFile.close();
 	statsFile.close();
