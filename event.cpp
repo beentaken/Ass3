@@ -111,6 +111,47 @@ Event::Event(string in) //Construct Event from string
 	fromString(in);
 }
 
+char Event::getCDE()
+{
+	char ret;
+	switch(this->cde)
+	{
+		case Event::C:
+			ret = 'C';
+			break;
+		case Event::D:
+			ret = 'D';
+			break;
+		case Event::E:
+			ret = 'E';
+			break;
+		default:
+			ret = 'N';
+	}
+	return in;
+}
+
+void Event::setCDE(char cde)
+{
+	switch(cde)
+	{
+		case 'C':
+		case 'c':
+			 this->cde = Event::C;
+			break;
+		case 'D':
+		case 'd':
+			this->cde = Event::D;
+			break;
+		case 'E':
+		case 'e':
+			this->cde = Event::E;
+			break;
+		default:
+			this->cde = Event::N;
+	}
+}
+
 void Event::fromString(std::string input)	//Asign values from string
 {
 	std::stringstream ss;

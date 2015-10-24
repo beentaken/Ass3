@@ -87,10 +87,12 @@ class Event
 
 		string	getName()			{return this->name;}
 		void 	setName(string n)	{this->name = n;}
-		float	getmin()			{return this->minimum;}
-		void	setmin(float m)		{this->minimum = m;}
-		float	getmax()			{return this->maximum;}
-		void	setmax(float m)		{this->maximum = m;}
+		char	getCDE();
+		void	setCDE(char cde);
+		float	getMin()			{return this->minimum;}
+		void	setMin(float m)		{this->minimum = m;}
+		float	getMax()			{return this->maximum;}
+		void	setMax(float m)		{this->maximum = m;}
 		string 	getUnit()			{return this->unit;}
 		void	setUnit(string u)	{this->unit = u;}
 		string 	getWeight()			{return this->unit;}
@@ -110,6 +112,7 @@ class Event
 
 		friend std::ostream & operator << (std::ostream & os, Event & e);
 		friend std::istream & operator >> (std::istream & in, Event & e);
+		friend void activityEngine(Event event[],int eventCount, int days, std::ofstream & out);
 
 	private:
 		string	name;

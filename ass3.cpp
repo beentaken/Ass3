@@ -19,6 +19,8 @@ int main()
 
 	eventsFile >> n;
 
+
+
 	//... 
 
 	//Event eventArray[n]

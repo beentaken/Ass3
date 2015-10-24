@@ -89,11 +89,11 @@ double generate(double mean, double stddev, double min, double max)
 *
 *******************************************************************************/
 
-void activityEngine(Event event[], int days, std::ofstream & out)
+void activityEngine(Event event[],int eventCount, int days, std::ofstream & out)
 {
 	srand(time(NULL)); // for generate
 	std::cout << "Log generation started...\n";
-	out << event->size() << std::endl;
+	out << eventCount << std::endl;
 	for(int i=0;i<days;i++)
 	{
 		std::cout << "Day " << i << std::endl;
@@ -147,7 +147,7 @@ struct Statistics
 	double mean;
 	double stddev;
 	Statistics(int n) {values = new double[n];}
-	~Statistics {delete [] values;}
+	~Statistics() {delete [] values;}
 };
 
 void analysisEngine(std::ifstream & in, std::ofstream & out, int days)
@@ -189,7 +189,7 @@ void analysisEngine(std::ifstream & in, std::ofstream & out, int days)
 		out << logs[i].name << ":" << logs[i].total << ":" << logs[i].mean << ":" << logs[i].stddev << std::endl;
 	}
 	std::cout << "Saved to file\n";
-		
+
 }
 //-----------  Stat functions  -------------
 double stdDev(double data[], int n) //
@@ -204,7 +204,7 @@ double stdDev(double data[], int n) //
 	for(int i=0; i<n;++i)
 		sum_deviation+=(data[i]-mean)*(data[i]-mean);
 
-	return sqrt(sum_deviation/n);           
+	return sqrt(sum_deviation/n);
 }
 
 double mean(double data[], int n)
@@ -215,12 +215,12 @@ double mean(double data[], int n)
 		mean+=data[i];
 	}
 	mean=mean/n;
-	return mean;           
+	return mean;
 }
 
 
 double Total(double data[],int n)
-{	
+{
 	double total;
 	for(int i=0; i<n;++i)
 	{
