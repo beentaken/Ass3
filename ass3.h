@@ -1,5 +1,5 @@
 /*****************************************************************
-*	CSCI262 Assignment 3 
+*	CSCI262 Assignment 3
 *	ass3.h
 *	last Modified: zs 17/10/15
 ******************************************************************/
@@ -16,20 +16,20 @@
 
 /*****************************************************************
 *	Psuedocode for Initial Input & Activity Engine/Log Gen
-*	
+*
 *	read in stats and events;
-*		check for discrepencies 
+*		check for discrepencies
 *		ie(different events,mean is out of range(min, max)
-*	
+*
 *	create objects with data;
 *	create Array of event objects;
-*	iterate number of days	
+*	iterate number of days
 *		irterate through array;
 *			randomise values according to
 *			distrubution (normal distrib)
 *			->save to log;
 *	LOG FORMAT
-*	
+*
 *	day:name:[CDE]:value:units
 ******************************************************************/
 
@@ -77,7 +77,7 @@ double generate(double mean, double stddev, double min, double max)
 
 /******************************************************************************
 *
-*	ACTIVITY ENGINE - LOG GENERATION	
+*	ACTIVITY ENGINE - LOG GENERATION
 *	Arguments: array of events, days, output stream
 *	Uses 'Generator' class
 *
@@ -89,32 +89,32 @@ double generate(double mean, double stddev, double min, double max)
 *
 *******************************************************************************/
 
-void activityEngine(Event event[],int eventCount, int days, std::ofstream & out)
+void activityEngine(Event event[],int eventCount, int days, std::fstream & out)
 {
 	srand(time(NULL)); // for generate
 	std::cout << "Log generation started...\n";
 	out << eventCount << std::endl;
-	for(int i=0;i<days;i++)
+	for(int day=0;day<days;day++)
 	{
-		std::cout << "Day " << i << std::endl;
-		out << "Day " << i << std::endl;
-		for(int j=0;j<eventCount;j++)
+		std::cout << "Day " << day+1 << std::endl;
+		out << "Day " << day+1 << std::endl;
+		for(int eventNum=0;eventNum<eventCount;eventNum++)
 		{
 			//check event type
-			if(event[i].getCDE() == 'C')
+			if(event[eventNum].getCDE() == 'C')
 			{
-				double g = generate(event[i].mean, event[i].stdDevation, event[i].minimum, event[i].maximum);
-				out << event[i].name << ':' <<  g << ':' << event[i].unit << std::endl;
+				double g = generate(event[eventNum].mean, event[eventNum].stdDevation, event[eventNum].minimum, event[eventNum].maximum);
+				out << event[eventNum].name << ':' <<  g << ':' << event[eventNum].unit << std::endl;
 			}
-			else if(event[i].getCDE() == 'D')
+			else if(event[eventNum].getCDE() == 'D')
 			{
-				double g = generate(event[i].mean, event[i].stdDevation, event[i].minimum, 999999);
-				out << event[i].name << ':' <<  g << ':' << event[i].unit << std::endl;
+				double g = generate(event[eventNum].mean, event[eventNum].stdDevation, event[eventNum].minimum, 999999);
+				out << event[eventNum].name << ':' <<  g << ':' << event[eventNum].unit << std::endl;
 			}
-			else if(event[i].getCDE() == 'E')
+			else if(event[eventNum].getCDE() == 'E')
 			{
-				double g = generate(event[i].mean, event[i].stdDevation, -999999, 999999);
-				out << event[i].name << ':' <<  g << ':' << event[i].unit << std::endl;
+				double g = generate(event[eventNum].mean, event[eventNum].stdDevation, -999999, 999999);
+				out << event[eventNum].name << ':' <<  g << ':' << event[eventNum].unit << std::endl;
 			}
 			else
 				out << "Error log entry" << std::endl;
@@ -125,7 +125,7 @@ void activityEngine(Event event[],int eventCount, int days, std::ofstream & out)
 
 /******************************************************************************
 *
-*	ANALYSIS ENGINE	
+*	ANALYSIS ENGINE
 *	Arguments: in file - intput stream, save output stream
 *
 *	read in -> calculate stats for each day -> save
@@ -150,18 +150,23 @@ struct Statistics
 	~Statistics() {delete [] values;}
 };
 
-void analysisEngine(std::ifstream & in, std::ofstream & out, int days)
+double stdDev(double data[], int n);
+double mean(double data[], int n);
+double Total(double data[],int n);
+
+void analysisEngine(std::fstream & in, std::ofstream & out, int days)
 {
 	std::cout << "\nAnalysis started...\n";
-	int n; // = number of events
+	int n = 0; // = number of events
 	in >> n; // get top line
+	in.ignore(2,'\n');
 	std::vector<Statistics> logs(n, Statistics(days));
 	for(int i =0; i<days;i++)
 	{
 		string temp;
 		int dayN;
 		in >> temp >> dayN;
-		if(temp!="Day" || dayN!= (i-1))
+		if(temp!="Day" || dayN!= (i+1))
 		{
 			std::cout << "Error reading file\n"; 				return;
 		}
@@ -170,10 +175,11 @@ void analysisEngine(std::ifstream & in, std::ofstream & out, int days)
 		for(int j = 0; j<n;j++)
 		{
 			getline(in,logs[j].name,':');
-			in.ignore();
-			getline(in,logs[j].values[i],':');
+			in >> logs[j].values[i];
 			in.ignore();
 			getline(in,logs[j].units,':');
+			in.ignore();
+
 		}
 	}
 	//calculate;
