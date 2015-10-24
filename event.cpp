@@ -128,7 +128,7 @@ char Event::getCDE()
 		default:
 			ret = 'N';
 	}
-	return in;
+	return ret;
 }
 
 void Event::setCDE(char cde)
