@@ -112,7 +112,7 @@ class Event
 
 		friend std::ostream & operator << (std::ostream & os, Event & e);
 		friend std::istream & operator >> (std::istream & in, Event & e);
-		friend void activityEngine(Event event[],int eventCount, int days, std::ofstream & out);
+		friend void activityEngine(Event event[],int eventCount, int days, std::fstream & out);
 
 	private:
 		string	name;
