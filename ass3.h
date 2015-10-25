@@ -300,10 +300,12 @@ int anomaly_value(double value, Statistics input, int weight)
 	return devations * weight;
 }
 
-void StatsFromFile(std::ifstream& in, string fileName, std::vector<Statistics>& stats)
+bool StatsFromFile(std::ifstream& in, string fileName, std::vector<Statistics>& stats)
 {
 	int size = 0;
 	in.open(fileName.c_str());
+	if(!in.is_open())
+		return false;
 	in >> size;
 
 	for(int i = 0; i < size; ++i)
@@ -315,7 +317,7 @@ void StatsFromFile(std::ifstream& in, string fileName, std::vector<Statistics>& 
 		in.ignore(2,'\n');
 	}
 	in.close();
-	return;
+	return true;
 }
 
 #endif

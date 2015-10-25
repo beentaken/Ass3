@@ -84,25 +84,30 @@ int main(int argc,  char** argv)
 		if(fileName == "q")
 			break;
 		//get input stats from  given file
-		StatsFromFile(in,fileName,inputStats);
-
-		//for each day
-		in.open("logs.dat");
-		in.ignore(999,'\n');
-		cout << "Threshold: " << threshold << endl;
-		cout<< "Day \tAlert Level" << endl;
-		for(int i = 0; i < days; ++i)
+		if(!StatsFromFile(in,fileName,inputStats))
 		{
-			in.ignore(999,'\n');	//ignore Day
-			alert = alert_engine(inputStats,in,weights,n);
-			cout << i+1 << ":\t" << alert;
-			if (alert >= threshold)
-			{
-				cout << " Alert!";
-				++alertCount;
-			}
-			cout << endl;
+			cerr << "File not found, try again" << endl;
 		}
+		else
+		{
+			//for each day
+			in.open("logs.dat");
+			in.ignore(999,'\n');
+			cout << "Threshold: " << threshold << endl;
+			cout<< "Day \tAlert Level" << endl;
+			for(int i = 0; i < days; ++i)
+			{
+				in.ignore(999,'\n');	//ignore Day
+				alert = alert_engine(inputStats,in,weights,n);
+				cout << i+1 << ":\t" << alert;
+				if (alert >= threshold)
+				{
+					cout << " Alert!";
+					++alertCount;
+				}
+				cout << endl;
+			}
+		}		
 	}
 
 	logStats.close();

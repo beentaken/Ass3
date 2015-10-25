@@ -208,7 +208,6 @@ bool Event::readStats(std::istream& ins, int& size, Event*& e)
 
 void Event::statString(string stats)
 {
-	Event& spy = *this;
 	std::stringstream ss;
 	ss << stats;
 	getline(ss,stats,':');
