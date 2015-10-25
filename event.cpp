@@ -182,6 +182,11 @@ bool Event::readEvents(std::istream& ins, int& size, Event*& e)
 		//std::cerr << "string:		" << s << std::endl;
 		e[i].fromString(s);
 		//std::cerr <<"value:		" << e[i] << std::endl;
+		if(ins.eof())
+		{
+			std::cerr << "Error reading Events, is this in the correct format?" << std::endl;
+			return false;
+		}
 	}
 	return true;
 }
@@ -202,6 +207,11 @@ bool Event::readStats(std::istream& ins, int& size, Event*& e)
 	{
 		getline(ins,s,'\n');
 		e[i].statString(s);
+		if(ins.eof())
+		{
+			std::cerr << "Error reading Stats, is this in the correct format?" << std::endl;
+			return false;
+		}
 	}
 	return true;
 }
@@ -220,32 +230,4 @@ void Event::statString(string stats)
 	//std::cerr << this->stdDevation << std::endl;
 }
 
-/*
-Log::Log()
-{
-	size = 0;
-}
-
-Log(std::istream& in, string eventFile, string statsFile);
-{
-	in >> size;
-	std:: cerr << size;
-	in.ignore();
-	Event temp;
-	for(int i = 0; i < size; i++)
-	{
-		in >> temp;
-		set.push_back(temp);
-		//std:: cerr << set[i] << std::endl;
-	}
-}
-
-void Log::print(std::ostream& os)
-{
-	for(int i = 0; i < size; ++i)
-	{
-		os << set[i];
-	}
-}
-*/
 

@@ -282,7 +282,7 @@ int alert_engine(std::vector<Statistics>& inputStats, std::ifstream& in, int* we
 }
 
 
-//anomaly value is the number of standard deveations the value is from the expected mean multiplied by weight
+//anomaly value is the number of standard deviations the value is from the expected mean multiplied by weight
 int anomaly_value(double value, Statistics input, int weight)
 {
 	double	Upper = input.mean;

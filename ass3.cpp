@@ -78,7 +78,10 @@ int main(int argc,  char** argv)
 
 	while(fileName != "q")
 	{
+		alert = 0;
+		alertCount = 0;
 		//prompt for file
+		cin.clear();
 		cout << "please enter stats file or type 'q' to quit: ";
 		cin >> fileName;
 		if(fileName == "q")
@@ -107,6 +110,7 @@ int main(int argc,  char** argv)
 				}
 				cout << endl;
 			}
+			in.close();
 		}		
 	}
 
