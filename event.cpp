@@ -2,7 +2,7 @@
  *	Ben Wardrop 4413234
  *	CSCI262 Assignment 3
  *	Event.h
- *	last Modified: Ben 12/10/15
+ *	last Modified: Ben 26/10/15
  **************************************************************************************************************/
 
 #include "event.h"
@@ -169,16 +169,7 @@ string Event::toString()					//Create a string representation
 	return ret;
 }
 
-/*
-void Event::readIn(Event* e, string eventsFile, string statsFile)
-{
-	int size = 0;
-	Event* current = e;
-    Event::readEvents(e,size,eventsFile);
-	Event::readStats(e,size,eventsFile);
-}
-*/
-void Event::readEvents(std::istream& ins, int& size, Event*& e)
+bool Event::readEvents(std::istream& ins, int& size, Event*& e)
 {
 	string s;
 	ins >> size;
@@ -192,12 +183,19 @@ void Event::readEvents(std::istream& ins, int& size, Event*& e)
 		e[i].fromString(s);
 		//std::cerr <<"value:		" << e[i] << std::endl;
 	}
+	return true;
 }
 
-void Event::readStats(std::istream& ins, int& size, Event*& e)
+bool Event::readStats(std::istream& ins, int& size, Event*& e)
 {
+	int n = 0;
 	string s;
-	ins >> size;
+	ins >> n;
+	if(n != size)
+	{
+		std::cerr << "Error: Stats and Events have differing sizes" << std::endl;
+		std::cerr << "did you provide the wrong files?" << std::endl;
+	}
 	ins.ignore(2,'\n');
 	ins.clear();
 	for(int i = 0; i < size; i++)
@@ -205,6 +203,7 @@ void Event::readStats(std::istream& ins, int& size, Event*& e)
 		getline(ins,s,'\n');
 		e[i].statString(s);
 	}
+	return true;
 }
 
 void Event::statString(string stats)
@@ -250,3 +249,4 @@ void Log::print(std::ostream& os)
 	}
 }
 */
+
